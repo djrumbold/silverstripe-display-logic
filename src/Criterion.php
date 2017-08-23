@@ -2,7 +2,8 @@
 
 namespace UncleCheese\DisplayLogic;
 
-use SilverStripe\Core\Object;
+use SilverStripe\Core\Config\Configurable;
+use SilverStripe\Core\Injector\Injectable;
 
 /**
  *  Defines a criterion that controls the display of a given
@@ -11,10 +12,12 @@ use SilverStripe\Core\Object;
  * @package  display_logic
  * @author  Uncle Cheese <unclecheese@leftandmain.com>
  */
-class DisplayLogicCriterion extends Object {
+class Criterion {
+    use Configurable;
+    use Injectable;
 
 
-	/**
+    /**
 	 * The name of the form field that is controlling the display
 	 * @var string
 	 */
@@ -41,7 +44,7 @@ class DisplayLogicCriterion extends Object {
 
 	/**
 	 * The parent {@link DisplayLogicCriteria}
-	 * @var DisplayLogicCriteria
+	 * @var Criteria
 	 */
 	protected $set = null;
 
@@ -53,10 +56,9 @@ class DisplayLogicCriterion extends Object {
 	 * @param string               $master   The name of the master field
 	 * @param string               $operator The name of the comparison function
 	 * @param string               $value    The value to compare to
-	 * @param DisplayLogicCriteria $set      The parent criteria set
+	 * @param Criteria $set      The parent criteria set
 	 */
-	public function __construct($master, $operator, $value, DisplayLogicCriteria $set) {
-		parent::__construct();
+	public function __construct($master, $operator, $value, Criteria $set) {
 		$this->master = $master;
 		$this->operator = $operator;
 		$this->value = $value;

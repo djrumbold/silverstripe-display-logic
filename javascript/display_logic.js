@@ -1,4 +1,5 @@
 (function($) {
+
 	$('div.display-logic, div.display-logic-master').entwine({
 
 		escapeSelector: function(selector) {
@@ -214,43 +215,43 @@
 	});
 
 	var animation = {
-		
+
 		toggle: {
-			
+
 			show: function(el) {
 				el.show();
 			},
-			
+
 			hide: function(el) {
 				el.hide();
 			}
-			
+
 		},
-		
+
 		slide: {
-			
+
 			show: function(el) {
 				el.slideDown();
 			},
-			
+
 			hide: function(el) {
 				el.slideUp();
 			}
-			
+
 		},
-		
+
 		fade: {
-			
+
 			show: function(el) {
 				el.fadeIn();
 			},
-			
+
 			hide: function(el) {
 				el.fadeOut();
 			}
-			
+
 		},
-		
+
 		perform: function(el, result, method) {
 			if(typeof method == 'undefined') method = 'toggle';
 			if(result) {
@@ -259,9 +260,7 @@
 				this[method].hide(el);
 			}
 		}
-		
 	};
-
 
 	$('div.display-logic.display-logic-display').entwine({
 		testLogic: function() {
@@ -286,6 +285,12 @@
 			this.closest(".display-logic-master").notify();
 		}
 	});
+
+    $('div.display-logic-master .active-result').entwine({
+        onclick: function() {
+            this.closest(".display-logic-master").notify();
+        }
+    });
 
 
 	$('div.display-logic-master :checkbox, div.display-logic-master :radio').entwine({
@@ -349,5 +354,7 @@
 			return this.parents('.field');
 		}
 	});
+
+
 
 })(jQuery);

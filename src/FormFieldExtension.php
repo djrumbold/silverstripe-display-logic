@@ -2,7 +2,7 @@
 
 namespace UncleCheese\DisplayLogic\Extension;
 
-use UncleCheese\DisplayLogic\DisplayLogicCriteria;
+use UncleCheese\DisplayLogic\Criteria;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\View\Requirements;
 use SilverStripe\Core\Config\Config;
@@ -13,13 +13,11 @@ use SilverStripe\Core\Config\Config;
  * @package  display_logic
  * @author  Uncle Cheese <unclecheese@leftandmain.com>
  */
-class DisplayLogicFormField extends DataExtension {
-
-	
+class FormFieldExtension extends DataExtension {
 
 	/**
 	 * The {@link DisplayLogicCriteria} that is evaluated to determine whether this field should display
-	 * @var DisplayLogicCriteria
+	 * @var Criteria
 	 */
 	protected $displayLogicCriteria = null;
 
@@ -29,7 +27,7 @@ class DisplayLogicFormField extends DataExtension {
 	/**
 	 * If the criteria evaluate true, the field should display
 	 * @param  string $master The name of the master field
-	 * @return DisplayLogicCriteria
+	 * @return Criteria
 	 */
 	public function displayIf($master) {
 		$class ="display-logic display-logic-hidden display-logic-display";
@@ -39,7 +37,7 @@ class DisplayLogicFormField extends DataExtension {
 			$this->owner->addHolderClass($class);
 		}
 
-		return $this->displayLogicCriteria = DisplayLogicCriteria::create($this->owner, $master);
+		return $this->displayLogicCriteria = Criteria::create($this->owner, $master);
 	}
 
 
@@ -48,7 +46,7 @@ class DisplayLogicFormField extends DataExtension {
 	 * If the criteria evaluate true, the field should hide.
 	 * The field will be hidden with CSS on page load, before the script loads.
 	 * @param  string $master The name of the master field
-	 * @return DisplayLogicCriteria
+	 * @return Criteria
 	 */
 	public function hideIf($master) {
 		$class = "display-logic display-logic-hide";
@@ -58,7 +56,7 @@ class DisplayLogicFormField extends DataExtension {
 			$this->owner->addHolderClass($class);
 		}
 
-		return $this->displayLogicCriteria = DisplayLogicCriteria::create($this->owner, $master);
+		return $this->displayLogicCriteria = Criteria::create($this->owner, $master);
 	}
 
 
@@ -67,7 +65,7 @@ class DisplayLogicFormField extends DataExtension {
 	 * If the criteria evaluate true, the field should hide.
 	 * The field will displayed before the script loads.
 	 * @param  string $master The name of the master field
-	 * @return DisplayLogicCriteria
+	 * @return Criteria
 	 */
 	public function displayUnless($master) {
 		return $this->hideIf($master);
@@ -80,19 +78,18 @@ class DisplayLogicFormField extends DataExtension {
 	 * If the criteria evaluate true, the field should display.
 	 * The field will be hidden with CSS on page load, before the script loads.
 	 * @param  string $master The name of the master field
-	 * @return DisplayLogicCriteria
+	 * @return Criteria
 	 */
 	public function hideUnless($master) {
 		return $this->owner->displayIf($master);
 	}
 
 
-
 	/**
 	 * Sets the criteria governing the display of this field
-	 * @param DisplayLogicCriteria $c
+	 * @param Criteria $c
 	 */
-	public function setDisplayLogicCriteria(DisplayLogicCriteria $c) {
+	public function setDisplayLogicCriteria(Criteria $c) {
 		$this->displayLogicCriteria = $c;
 	}
 
@@ -131,20 +128,26 @@ class DisplayLogicFormField extends DataExtension {
 	 * @return  string
 	 */
 	public function DisplayLogic() {
+
 		if($this->displayLogicCriteria) {
-			if(!Config::inst()->get('DisplayLogic', 'jquery_included')) {
-				Requirements::javascript(ADMIN_THIRDPARTY_DIR.'/jquery/jquery.js');
-			}
-			Requirements::javascript(ADMIN_THIRDPARTY_DIR.'/jquery-entwine/dist/jquery.entwine-dist.js');
-			Requirements::javascript(DISPLAY_LOGIC_DIR.'/javascript/display_logic.js');
-			Requirements::css(DISPLAY_LOGIC_DIR.'/css/display_logic.css');
+            if(!Config::inst()->get('DisplayLogic', 'jquery_included')) {
+                Requirements::javascript('silverstripe-admin/thirdparty/jquery/jquery.js');
+            }
+
+            Requirements::javascript('silverstripe-admin/thirdparty/jquery-entwine/dist/jquery.entwine-dist.js');
+            Requirements::javascript(DISPLAY_LOGIC_DIR.'/javascript/display_logic.js');
+            Requirements::css(DISPLAY_LOGIC_DIR.'/css/display_logic.css');
+
 			return $this->displayLogicCriteria->toScript();
 		}
 		
 		return false;
 	}
 	public function onBeforeRender($field) {
-		if($logic = $field->DisplayLogic()) {			
+
+
+
+		if($logic = $field->DisplayLogic()) {
 			$field->setAttribute('data-display-logic-masters', $field->DisplayLogicMasters());
 			$field->setAttribute('data-display-logic-eval', $logic);
 			$field->setAttribute('data-display-logic-animation', $field->DisplayLogicAnimation());

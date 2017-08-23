@@ -4,4 +4,4 @@ namespace UncleCheese\DisplayLogic;
 
 use SilverStripe\Forms\CompositeField;
 
-class DisplayLogicWrapper extends CompositeField {}
+class FormFieldWrapper extends CompositeField {}

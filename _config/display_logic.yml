@@ -1,4 +1,4 @@
-UncleCheese\DisplayLogic\DisplayLogicCriteria:
+UncleCheese\DisplayLogic\Criteria:
   comparisons:
     - isEqualTo
     - isNotEqualTo
@@ -23,6 +23,7 @@ UncleCheese\DisplayLogic\DisplayLogicCriteria:
     
 SilverStripe\Forms\FormField:
   extensions:
-    - UncleCheese\DisplayLogic\Extension\DisplayLogicFormField
+    - UncleCheese\DisplayLogic\Extension\FormFieldExtension
+
 DisplayLogic:
   jquery_included: true
