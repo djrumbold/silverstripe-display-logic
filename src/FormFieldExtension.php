@@ -131,10 +131,10 @@ class FormFieldExtension extends DataExtension {
 
 		if($this->displayLogicCriteria) {
             if(!Config::inst()->get('DisplayLogic', 'jquery_included')) {
-                Requirements::javascript('vendor/silverstripe/admin/thirdparty/jquery/jquery.js');
+                Requirements::javascript('silverstripe/admin: thirdparty/jquery/jquery.js');
             }
 
-            Requirements::javascript('vendor/silverstripe/admin/thirdparty/jquery-entwine/dist/jquery.entwine-dist.js');
+            Requirements::javascript('silverstripe/admin: thirdparty/jquery-entwine/dist/jquery.entwine-dist.js');
             Requirements::javascript(DISPLAY_LOGIC_DIR.'/javascript/display_logic.js');
             Requirements::css(DISPLAY_LOGIC_DIR.'/css/display_logic.css');
 
