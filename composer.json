@@ -21,8 +21,8 @@
        "installer-name": "display_logic",
        "branch-alias": {
             "dev-master": "1.4.x-dev"
-        }
-    },
+	   }
+	},
     "autoload": {
         "psr-4": {
             "UncleCheese\\DisplayLogic\\": "src/"
